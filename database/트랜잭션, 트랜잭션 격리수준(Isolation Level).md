@@ -15,7 +15,7 @@
 
 이 중 격리성(Isolation)에 대한 이슈가 있다.
 
-격리성을 완벽히 보장하기 위해 모든 트랜잭션을 순차적으로 실행한다면 동시성 처리 이슈가 발생한다. 반대로 동시성을 높이기 위해 여러 트랜잭션을 병렬처리하게 되면 데이터의 무결성이 깨질 수 있다.
+> 격리성을 완벽히 보장하기 위해 모든 트랜잭션을 순차적으로 실행한다면 동시성 처리 이슈가 발생한다. 반대로 동시성을 높이기 위해 여러 트랜잭션을 병렬처리하게 되면 데이터의 무결성이 깨질 수 있다.
 
 격리성과 동시성으로 부터 파생되는 문제점부터 살펴 보자.
 
@@ -49,9 +49,7 @@
 
 ## 3. 트랜잭션 격리수준
 
-위와 같은 문제들 때문에, ANSI표준에서 트랜잭션의 격리성과 동시 처리 성능 사이의 Trade-off를 두고 4단계 격리수준을 나누었다.
-
-내려갈수록 격리 수준이 높아져서 언급된 이슈는 적게 발생하지만 동시 처리 성능은 떨어진다.
+위와 같은 문제들 때문에, ANSI표준에서 트랜잭션의 격리성과 동시 처리 성능 사이의 Trade-off를 두고 4단계 격리수준을 나누었다. 내려갈수록 격리 수준이 높아져서 언급된 이슈는 적게 발생하지만 동시 처리 성능은 떨어진다.
 
 참고로, 트랜잭션이 발생하면 락(Lock)이 걸리는데, SELECT 시에는 **공유 락**,  CREATE/INSERT/DELETE 시에는 **배타적 락**이 걸린다
 
@@ -63,11 +61,9 @@
 
 
 
-이 수준은 당연히 위에서 언급한 모든 문제에 대해 발생가능성이 존재한다.
+> 이 수준은 당연히 위에서 언급한 모든 문제에 대해 발생가능성이 존재한다. 대신, 동시 처리 성능은 가장 높다.
 
-대신, 동시 처리 성능은 가장 높다.
-
-**발생 문제점 : Dirty Read, Non-Repeatable Read, Phantom Read**
+- **발생 문제점 : Dirty Read, Non-Repeatable Read, Phantom Read**
 
 
 
@@ -77,13 +73,9 @@
 
 
 
-Dirty Read가 발생할 여지는 없으나, Read Uncommitted 수준보다 동시 처리 성능은 떨어진다. 
+> Dirty Read가 발생할 여지는 없으나, Read Uncommitted 수준보다 동시 처리 성능은 떨어진다.  대신 Non-Repeatable Read 및 Phantom Read는 발생 가능하다.데이타베이스들은 보통 Read Committed를 디폴트 수준으로 지정한다.
 
-대신 Non-Repeatable Read 및 Phantom Read는 발생 가능하다.
-
-데이타베이스들은 보통 Read Committed를 디폴트 수준으로 지정한다.
-
-**발생 문제점 : Non-Repeatable Read, Phantom Read**
+- **발생 문제점 : Non-Repeatable Read, Phantom Read**
 
 
 
@@ -93,11 +85,9 @@ Dirty Read가 발생할 여지는 없으나, Read Uncommitted 수준보다 동�
 
 
 
-이는 개별 데이타 이슈인 Dirty Read나 Non-Repeatable Read는 발생하지 않지만,
+> 이는 개별 데이타 이슈인 Dirty Read나 Non-Repeatable Read는 발생하지 않지만, 결과 집합 자체가 달라지는 Phantom Read는 발생가능하다.
 
-결과 집합 자체가 달라지는 Phantom Read는 발생가능하다.
-
-**발생 문제점 : Phantom Read**
+- **발생 문제점 : Phantom Read**
 
 
 
